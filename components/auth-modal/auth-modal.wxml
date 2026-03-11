@@ -1,0 +1,41 @@
+<!--components/auth-modal/auth-modal.wxml-->
+<view class="auth-modal" wx:if="{{show}}">
+  <view class="auth-backdrop" bindtap="hideModal"></view>
+  <view class="auth-content">
+    <view class="auth-header">
+      <text class="auth-title">授权登录</text>
+      <text class="auth-close" bindtap="hideModal">×</text>
+    </view>
+    <view class="auth-body">
+      <view class="auth-logo-placeholder"></view>
+      <text class="auth-desc">为了提供更好的服务，需要您授权登录</text>
+      <text class="auth-info">我们将获取您的微信头像、昵称等信息</text>
+    </view>
+    <view class="auth-footer">
+      <button class="auth-confirm" open-type="getUserInfo" bindgetuserinfo="getUserInfo">微信授权登录</button>
+      <button class="auth-cancel" bindtap="hideModal">取消</button>
+    </view>
+  </view>
+</view>
+
+<!-- 手机号授权模态框 -->
+<view class="auth-modal" wx:if="{{showPhoneModal}}">
+  <view class="auth-backdrop" bindtap="hideModal"></view>
+  <view class="auth-content">
+    <view class="auth-header">
+      <text class="auth-title">授权手机号</text>
+      <text class="auth-close" bindtap="hideModal">×</text>
+    </view>
+    <view class="auth-body">
+      <view class="auth-logo-placeholder" style="background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);">
+        <text style="font-size: 50rpx; color: white;">📱</text>
+      </view>
+      <text class="auth-desc">为了更好地为您服务，需要您授权手机号</text>
+      <text class="auth-info">我们将获取您的微信绑定手机号</text>
+    </view>
+    <view class="auth-footer">
+      <button class="auth-phone" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">授权手机号</button>
+      <button class="auth-cancel" bindtap="hideModal">暂不授权</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "运气棒棒",
+  "usingComponents": {
+    "auth-modal": "/components/auth-modal/auth-modal"
+  }
+}

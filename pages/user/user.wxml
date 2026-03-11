@@ -1,0 +1,23 @@
+<!--user.wxml-->
+<view class="container">
+  <view class="user-info" wx:if="{{userInfo}}">
+    <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+    <text class="nickname">{{userInfo.nickName}}</text>
+    <text class="gender">{{userInfo.gender == 1 ? '男' : userInfo.gender == 2 ? '女' : '未知'}}</text>
+    <text class="city">{{userInfo.city}}, {{userInfo.province}}</text>
+  </view>
+  <view class="auth-section" wx:else>
+    <text>需要授权才能使用个人中心</text>
+    <button bindtap="showAuthModal">授权登录</button>
+  </view>
+</view>
+
+<!-- 授权提示组件 -->
+<auth-modal 
+  show="{{showAuthModal}}" 
+  bind:close="hideAuthModal" 
+  bind:success="onAuthSuccess" 
+  bind:fail="onAuthFail"
+  bind:phoneSuccess="onPhoneSuccess"
+  bind:phoneFail="onPhoneFail"
+/>

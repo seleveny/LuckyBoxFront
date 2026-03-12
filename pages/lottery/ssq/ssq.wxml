@@ -1,0 +1,4 @@
+<view class="container">
+  <text class="title">双色球</text>
+  <text class="desc">双色球游戏页面</text>
+</view>

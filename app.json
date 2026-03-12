@@ -1,7 +1,15 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/user/user"
+    "pages/user/user",
+    "pages/lottery/fc3d/fc3d",
+    "pages/lottery/pl3/pl3",
+    "pages/lottery/ssq/ssq",
+    "pages/lottery/dlt/dlt",
+    "pages/lottery/pl5/pl5",
+    "pages/lottery/kl8/kl8",
+    "pages/lottery/qxc/qxc",
+    "pages/lottery/qlc/qlc"
   ],
   "window": {
     "backgroundTextStyle": "light",

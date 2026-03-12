@@ -1,0 +1,5 @@
+<!--pages/lottery/fc3d/fc3d.wxml-->
+<view class="container">
+  <text class="title">福彩3D</text>
+  <text class="desc">福彩3D游戏页面</text>
+</view>

@@ -1,0 +1,18 @@
+<!--components/lottery-grid/lottery-grid.wxml-->
+<view class="lottery-grid">
+  <view 
+    class="lottery-item" 
+    wx:for="{{types}}" 
+    wx:key="id"
+    data-index="{{index}}"
+    bindtap="onLotteryTap"
+  >
+    <view class="lottery-circle" style="background: {{item.gradient}}; box-shadow: 0 12rpx 40rpx {{item.shadow}};">
+      <view class="circle-shine"></view>
+      <view class="circle-inner">
+        <text class="lottery-icon">{{item.icon}}</text>
+        <text class="lottery-name">{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+</view>

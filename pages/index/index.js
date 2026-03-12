@@ -35,6 +35,11 @@ Page({
     const app = getApp();
     app.globalData.needAuth = false;
     
+    // 更新页面数据，显示用户信息
+    this.setData({
+      userInfo: e.detail
+    });
+    
     // 先登录获取openid和unionId
     app.login();
     
@@ -71,6 +76,21 @@ Page({
     wx.showToast({
       title: '手机号授权失败',
       icon: 'none'
+    });
+  },
+  
+  onLotteryTap: function(e) {
+    const lottery = e.detail;
+    // 跳转到对应的彩票页面
+    wx.navigateTo({
+      url: lottery.page
+    });
+  },
+  
+  goToUserPage: function() {
+    // 跳转到个人中心页面
+    wx.navigateTo({
+      url: '/pages/user/user'
     });
   }
 });

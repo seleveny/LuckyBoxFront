@@ -1,11 +1,29 @@
 <!--index.wxml-->
 <view class="container">
-  <view class="user-info" wx:if="{{userInfo}}">
-    <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
-    <text class="nickname">{{userInfo.nickName}}</text>
+  <!-- 背景装饰 -->
+  <view class="decoration-circle decoration-1"></view>
+  <view class="decoration-circle decoration-2"></view>
+  <view class="decoration-circle decoration-3"></view>
+  
+  <!-- 彩票类型网格 -->
+  <view class="lottery-section" wx:if="{{userInfo}}">
+    <lottery-grid bind:lotteryTap="onLotteryTap" />
   </view>
+  
+  <!-- 未登录提示 -->
   <view class="content" wx:else>
     <text>欢迎使用运气棒棒小程序</text>
+    <text class="sub-text">请授权登录后使用</text>
+  </view>
+</view>
+
+<!-- 底部功能条 -->
+<view class="bottom-bar" wx:if="{{userInfo}}">
+  <view class="bar-item" bindtap="goToUserPage">
+    <view class="user-icon">
+      <view class="icon-head"></view>
+      <view class="icon-body"></view>
+    </view>
   </view>
 </view>
 

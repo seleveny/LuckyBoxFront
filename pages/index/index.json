@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "运气棒棒",
   "usingComponents": {
-    "auth-modal": "/components/auth-modal/auth-modal"
+    "auth-modal": "/components/auth-modal/auth-modal",
+    "lottery-grid": "/components/lottery-grid/lottery-grid"
   }
 }

@@ -1,21 +1,169 @@
 /* pages/lottery/fc3d/fc3d.wxss */
+page {
+  background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+  min-height: 100vh;
+}
+
 .container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 40rpx;
+  padding: 20rpx;
+  padding-bottom: 40rpx;
   min-height: 100vh;
-  background-color: #f5f5f5;
+  box-sizing: border-box;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30rpx;
 }
 
 .title {
   font-size: 48rpx;
-  font-weight: bold;
-  color: #FF6B6B;
-  margin-bottom: 20rpx;
+  font-weight: 800;
+  color: white;
+  text-shadow: 0 4rpx 15rpx rgba(0, 0, 0, 0.2);
 }
 
-.desc {
-  font-size: 28rpx;
+.lottery-table {
+  background: white;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.15);
+}
+
+.table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.table-content {
+  width: 100%;
+  min-width: max-content;
+}
+
+.table-header {
+  display: flex;
+  background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+  min-width: max-content;
+}
+
+.header-cell {
+  padding: 20rpx 0;
+  text-align: center;
+  font-size: 26rpx;
+  color: white;
+  font-weight: 700;
+  border-right: 1rpx solid rgba(255, 255, 255, 0.2);
+  box-sizing: border-box;
+}
+
+.header-cell.period-col {
+  flex: 0 0 150rpx;
+  max-width: 150rpx;
+  min-width: 150rpx;
+}
+
+.header-cell.winning-col {
+  flex: 0 0 120rpx;
+  max-width: 120rpx;
+  min-width: 120rpx;
+}
+
+.header-cell.digit-col {
+  flex: 1;
+  min-width: 350rpx;
+}
+
+.header-cell:last-child {
+  border-right: none;
+}
+
+.table-body {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.table-row {
+  display: flex;
+  border-bottom: 1rpx solid #f0f0f0;
+  min-width: max-content;
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.cell {
+  padding: 15rpx 0;
+  text-align: center;
+  font-size: 24rpx;
+  color: #333;
+  border-right: 1rpx solid #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.cell.period-col {
+  flex: 0 0 150rpx;
+  max-width: 150rpx;
+  min-width: 150rpx;
+}
+
+.cell.winning-col {
+  flex: 0 0 120rpx;
+  max-width: 120rpx;
+  min-width: 120rpx;
+}
+
+.cell.digit-col {
+  flex: 1;
+  min-width: 350rpx;
+}
+
+.cell:last-child {
+  border-right: none;
+}
+
+.period {
+  font-weight: 600;
   color: #666;
+}
+
+.winning-number {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #FF6B6B;
+  letter-spacing: 4rpx;
+}
+
+.digit-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rpx;
+  padding: 8rpx;
+  justify-content: center;
+}
+
+.digit-cell {
+  width: 28rpx;
+  height: 28rpx;
+  border-radius: 6rpx;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18rpx;
+  color: #999;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.digit-cell.selected {
+  background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 2rpx 8rpx rgba(255, 107, 107, 0.3);
 }

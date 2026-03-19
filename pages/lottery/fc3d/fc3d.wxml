@@ -1,5 +1,59 @@
 <!--pages/lottery/fc3d/fc3d.wxml-->
 <view class="container">
-  <text class="title">福彩3D</text>
-  <text class="desc">福彩3D游戏页面</text>
+  <view class="header">
+    <text class="title">福彩3D</text>
+  </view>
+  
+  <view class="lottery-table">
+    <scroll-view scroll-x="true" class="table-scroll">
+      <view class="table-content">
+        <view class="table-header">
+          <view class="header-cell period-col">期号</view>
+          <view class="header-cell winning-col">开奖号</view>
+          <view class="header-cell digit-col">百位</view>
+          <view class="header-cell digit-col">十位</view>
+          <view class="header-cell digit-col">个位</view>
+        </view>
+        
+        <view class="table-body">
+          <view class="table-row" wx:for="{{lotteryData}}" wx:key="id">
+            <view class="cell period-col period">{{item.period}}</view>
+            <view class="cell winning-col winning-number">{{item.winningNumber}}</view>
+            <view class="cell digit-col digit-grid">
+              <view 
+                class="digit-cell {{item.hundreds === index ? 'selected' : ''}}" 
+                wx:for="{{[0,1,2,3,4,5,6,7,8,9]}}" 
+                wx:for-item="index"
+                wx:key="*this"
+                data-row="{{item.id}}"
+                data-digit="{{index}}"
+              >
+                {{index}}
+              </view>
+            </view>
+            <view class="cell digit-col digit-grid">
+              <view 
+                class="digit-cell {{item.tens === index ? 'selected' : ''}}" 
+                wx:for="{{[0,1,2,3,4,5,6,7,8,9]}}" 
+                wx:for-item="index"
+                wx:key="*this"
+              >
+                {{index}}
+              </view>
+            </view>
+            <view class="cell digit-col digit-grid">
+              <view 
+                class="digit-cell {{item.ones === index ? 'selected' : ''}}" 
+                wx:for="{{[0,1,2,3,4,5,6,7,8,9]}}" 
+                wx:for-item="index"
+                wx:key="*this"
+              >
+                {{index}}
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
 </view>

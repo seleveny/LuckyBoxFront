@@ -49,13 +49,17 @@ page {
 }
 
 .header-cell {
-  padding: 20rpx 0;
+  padding: 0;
   text-align: center;
   font-size: 26rpx;
   color: white;
   font-weight: 700;
   border-right: 1rpx solid rgba(255, 255, 255, 0.2);
   box-sizing: border-box;
+  height: 70rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .header-cell.period-col {
@@ -71,8 +75,9 @@ page {
 }
 
 .header-cell.digit-col {
-  flex: 1;
-  min-width: 350rpx;
+  flex: 0 0 400rpx;
+  min-width: 400rpx;
+  max-width: 400rpx;
 }
 
 .header-cell:last-child {
@@ -88,6 +93,7 @@ page {
   display: flex;
   border-bottom: 1rpx solid #f0f0f0;
   min-width: max-content;
+  height: 70rpx;
 }
 
 .table-row:last-child {
@@ -95,15 +101,17 @@ page {
 }
 
 .cell {
-  padding: 15rpx 0;
+  padding: 0;
   text-align: center;
   font-size: 24rpx;
   color: #333;
-  border-right: 1rpx solid #f0f0f0;
+  border-right: 1rpx solid #e0e0e0;
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  height: 100%;
+  min-height: 70rpx;
 }
 
 .cell.period-col {
@@ -119,8 +127,12 @@ page {
 }
 
 .cell.digit-col {
-  flex: 1;
-  min-width: 350rpx;
+  flex: 0 0 400rpx;
+  min-width: 400rpx;
+  max-width: 400rpx;
+  padding: 0;
+  height: 100%;
+  min-height: 70rpx;
 }
 
 .cell:last-child {
@@ -141,24 +153,32 @@ page {
 
 .digit-grid {
   display: flex;
-  flex-wrap: wrap;
-  gap: 2rpx;
-  padding: 8rpx;
-  justify-content: center;
+  gap: 0;
+  padding: 0;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .digit-cell {
-  width: 28rpx;
-  height: 28rpx;
-  border-radius: 6rpx;
+  flex: 1;
+  height: 100%;
+  border-radius: 0;
   background-color: #f5f5f5;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18rpx;
+  font-size: 20rpx;
   color: #999;
   font-weight: 500;
   transition: all 0.2s ease;
+  border-right: 1rpx solid #e0e0e0;
+  box-sizing: border-box;
+}
+
+.digit-cell:nth-child(10) {
+  border-right: none;
 }
 
 .digit-cell.selected {

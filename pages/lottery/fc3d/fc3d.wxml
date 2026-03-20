@@ -56,4 +56,114 @@
       </view>
     </scroll-view>
   </view>
+  
+  <view class="toolbar">
+    <view class="toolbar-left">
+      <view class="toolbar-btn" bindtap="onRandomSelect">
+        <text class="toolbar-icon">🎲</text>
+        <text class="toolbar-text">随机选号</text>
+      </view>
+    </view>
+    <view class="toolbar-center">
+      <view class="toolbar-btn scan-btn" bindtap="onScan">
+        <text class="toolbar-icon">📷</text>
+        <text class="toolbar-text">扫一扫</text>
+      </view>
+    </view>
+    <view class="toolbar-right">
+      <view class="toolbar-btn" bindtap="onFilter">
+        <text class="toolbar-icon">🔍</text>
+        <text class="toolbar-text">筛选查询</text>
+      </view>
+      <view class="toolbar-btn" bindtap="onFavorite">
+        <text class="toolbar-icon">⭐</text>
+        <text class="toolbar-text">我的收藏</text>
+      </view>
+    </view>
+  </view>
+  
+  <view class="float-btn {{showFloatBtn ? 'expanded' : ''}}" bindtap="onFloatBtnClick">
+    <view class="float-btn-content">
+      <text class="float-icon">🎮</text>
+      <text class="float-text">VR</text>
+    </view>
+  </view>
+  
+  <view class="vr-modal {{showVR ? 'show' : ''}}" bindtap="onCloseVR">
+    <view class="vr-content" catchtap="stopPropagation">
+      <view class="vr-header">
+        <text class="vr-title">虚拟中奖看板</text>
+        <text class="vr-close" bindtap="onCloseVR">✕</text>
+      </view>
+      <view class="vr-body">
+        <view class="vr-scene">
+          <view class="vr-3d-container" style="transform: translate(calc(-50% + {{viewX}}rpx), calc(-50% + {{viewY}}rpx)) scale({{scale}})">
+            <view class="vr-board">
+              <view class="board-header">
+                <text class="board-title">福彩3D中奖公告</text>
+                <text class="board-subtitle">最新开奖结果</text>
+              </view>
+              <view class="board-content">
+                <view class="board-row header-row">
+                  <text class="board-cell">期号</text>
+                  <text class="board-cell">开奖号</text>
+                  <text class="board-cell">百位</text>
+                  <text class="board-cell">十位</text>
+                  <text class="board-cell">个位</text>
+                </view>
+                <view class="board-row" wx:for="{{lotteryData}}" wx:key="id">
+                  <text class="board-cell period">{{item.period}}</text>
+                  <text class="board-cell winning">{{item.winningNumber}}</text>
+                  <view class="board-cell digit">
+                    <view class="board-digit-grid">
+                      <view wx:for="{{[0,1,2,3,4,5,6,7,8,9]}}" wx:key="index"
+                        class="board-digit-cell {{item.hundreds === index ? 'board-selected' : ''}}">
+                        {{index}}
+                      </view>
+                    </view>
+                  </view>
+                  <view class="board-cell digit">
+                    <view class="board-digit-grid">
+                      <view wx:for="{{[0,1,2,3,4,5,6,7,8,9]}}" wx:key="index"
+                        class="board-digit-cell {{item.tens === index ? 'board-selected' : ''}}">
+                        {{index}}
+                      </view>
+                    </view>
+                  </view>
+                  <view class="board-cell digit">
+                    <view class="board-digit-grid">
+                      <view wx:for="{{[0,1,2,3,4,5,6,7,8,9]}}" wx:key="index"
+                        class="board-digit-cell {{item.ones === index ? 'board-selected' : ''}}">
+                        {{index}}
+                      </view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+              <view class="board-footer">
+                <text class="footer-text">移动手机查看虚拟空间中的不同位置</text>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="vr-controls">
+          <view class="control-btn close-btn" bindtap="onCloseVR">
+            <text class="control-icon">✕</text>
+          </view>
+          <view class="control-btn" bindtap="onZoomIn">
+            <text class="control-icon">➕</text>
+          </view>
+          <view class="control-btn" bindtap="onZoomOut">
+            <text class="control-icon">➖</text>
+          </view>
+          <view class="control-btn" bindtap="onResetView">
+            <text class="control-icon">🔄</text>
+          </view>
+        </view>
+        <view class="vr-info">
+          <text class="info-text">移动手机查看不同位置 · 所有内容一目了然</text>
+        </view>
+      </view>
+    </view>
+  </view>
 </view>

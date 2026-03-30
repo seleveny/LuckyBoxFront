@@ -7,11 +7,17 @@ Page({
     viewX: 0,
     viewY: 0,
     scale: 1,
+    vrScale: 2.5,  // VR看板缩放比例
     deviceAlpha: 0,
     deviceBeta: 0,
     deviceGamma: 0,
     lastUpdateTime: 0
   },
+
+  // 用于平滑过渡的目标值
+  targetViewX: 0,
+  targetViewY: 0,
+  animationFrameId: null,
 
   onLoad: function (options) {
     this.generateLotteryData();
@@ -26,22 +32,13 @@ Page({
       const tens = Math.floor(Math.random() * 10);
       const ones = Math.floor(Math.random() * 10);
       
-      const angle = (i / 10) * Math.PI * 2;
-      const radius = 150;
-      const x = Math.cos(angle) * radius;
-      const y = Math.sin(angle) * radius;
-      const z = (i - 5) * 80;
-      
       data.push({
         id: i,
         period: basePeriod + i,
         winningNumber: `${hundreds}${tens}${ones}`,
         hundreds: hundreds,
         tens: tens,
-        ones: ones,
-        x: x,
-        y: y,
-        z: z
+        ones: ones
       });
     }
     
@@ -99,6 +96,10 @@ Page({
   startDeviceMotion: function() {
     const that = this;
     
+    // 初始位置：看到看板顶端（上方区域），所以视口要往下偏移
+    this.targetViewX = 0;
+    this.targetViewY = -600;  // 初始看到上方区域
+    
     wx.startDeviceMotionListening({
       interval: 'ui',
       success: function() {
@@ -110,34 +111,78 @@ Page({
     });
     
     wx.onDeviceMotionChange(function(res) {
-      const alpha = res.alpha;
       const beta = res.beta;
       const gamma = res.gamma;
       
-      // 节流：限制更新频率，避免卡顿
+      // 节流：限制更新频率为30fps（33ms），避免过于频繁的更新
       const now = Date.now();
-      if (now - that.data.lastUpdateTime < 8) {
+      if (now - that.data.lastUpdateTime < 33) {
         return;
       }
       
-      // 移动视角（摄像机位置），而不是旋转看板
+      // 计算目标位置（手机移动时，视角向相反方向移动）
       // gamma: 左右倾斜 (-90 到 90)，控制水平移动
       // beta: 前后倾斜 (0 到 180)，控制垂直移动
-      const viewX = gamma * 15;  // 水平移动范围（30度转动即可看全）
-      const viewY = (beta - 45) * 10;  // 垂直移动范围（30度转动即可看全）
+      // 注意：眼睛向左看，应该看到看板的左边，所以视口要向右移（相反方向）
+      const targetX = -gamma * 40;  // 取反：镜头左移，视口右移，看到左边
+      const targetY = -(beta - 45) * 30;  // 取反：低头下移，视口上移，看到下方
       
-      // 使用更高效的更新方式
+      // 限制范围 - 让移动范围足够大以查看整个看板
+      that.targetViewX = Math.max(-1200, Math.min(1200, targetX));
+      that.targetViewY = Math.max(-1000, Math.min(1000, targetY));
+      
       that.setData({
-        viewX: Math.max(-600, Math.min(600, viewX)),
-        viewY: Math.max(-450, Math.min(450, viewY)),
         lastUpdateTime: now
       });
+      
+      // 启动平滑动画
+      if (!that.animationFrameId) {
+        that.smoothUpdate();
+      }
+    });
+  },
+
+  // 平滑更新视角位置
+  smoothUpdate: function() {
+    const that = this;
+    const currentX = this.data.viewX;
+    const currentY = this.data.viewY;
+    
+    // 使用线性插值实现平滑过渡（0.15的系数表示平滑程度）
+    const newX = currentX + (this.targetViewX - currentX) * 0.15;
+    const newY = currentY + (this.targetViewY - currentY) * 0.15;
+    
+    // 如果接近目标值，直接设置为目标值
+    if (Math.abs(newX - this.targetViewX) < 0.5 && Math.abs(newY - this.targetViewY) < 0.5) {
+      this.setData({
+        viewX: this.targetViewX,
+        viewY: this.targetViewY
+      });
+      this.animationFrameId = null;
+      return;
+    }
+    
+    this.setData({
+      viewX: newX,
+      viewY: newY
+    });
+    
+    // 继续下一帧动画
+    this.animationFrameId = requestAnimationFrame(function() {
+      that.smoothUpdate();
     });
   },
 
   stopDeviceMotion: function() {
     wx.stopDeviceMotionListening();
     wx.offDeviceMotionChange();
+    
+    // 取消动画帧
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
+    
     this.setData({
       viewX: 0,
       viewY: 0,
@@ -145,6 +190,9 @@ Page({
       deviceBeta: 0,
       deviceGamma: 0
     });
+    
+    this.targetViewX = 0;
+    this.targetViewY = 0;
   },
 
   onCloseVR: function() {
@@ -159,24 +207,49 @@ Page({
   },
 
   onZoomIn: function() {
-    const newScale = Math.min(this.data.scale + 0.2, 2);
+    // 放大看板 = 靠近看板（距离减小）
+    const currentScale = this.data.vrScale || 2.5;
+    const newScale = Math.min(currentScale + 0.5, 5);
     this.setData({
-      scale: newScale
+      vrScale: newScale
     });
+    // 更新CSS变量
+    this.updateVRScale(newScale);
   },
 
   onZoomOut: function() {
-    const newScale = Math.max(this.data.scale - 0.2, 0.5);
+    // 缩小看板 = 远离看板（距离增大）
+    const currentScale = this.data.vrScale || 2.5;
+    const newScale = Math.max(currentScale - 0.5, 1);
     this.setData({
-      scale: newScale
+      vrScale: newScale
+    });
+    // 更新CSS变量
+    this.updateVRScale(newScale);
+  },
+
+  updateVRScale: function(scale) {
+    const query = wx.createSelectorQuery();
+    query.select('.vr-board').node();
+    query.exec((res) => {
+      if (res[0]) {
+        // 通过设置style来更新CSS变量
+        const vrBoard = res[0].node;
+        if (vrBoard) {
+          vrBoard.style.setProperty('--vr-scale', scale);
+        }
+      }
     });
   },
 
   onResetView: function() {
+    this.targetViewX = 0;
+    this.targetViewY = -600;  // 重置到顶端
     this.setData({
       viewX: 0,
-      viewY: 0,
-      scale: 1
+      viewY: -600,
+      vrScale: 2.5
     });
+    this.updateVRScale(2.5);
   }
 })

@@ -75,24 +75,21 @@ page {
 }
 
 .header-cell.digit-col {
-  flex: 0 0 400rpx;
-  min-width: 400rpx;
-  max-width: 400rpx;
-}
-
-.header-cell:last-child {
-  border-right: none;
+  flex: 0 0 300rpx;
+  max-width: 300rpx;
+  min-width: 300rpx;
 }
 
 .table-body {
-  max-height: 70vh;
-  overflow-y: auto;
+  min-width: max-content;
 }
 
 .table-row {
   display: flex;
   border-bottom: 1rpx solid #f0f0f0;
   min-width: max-content;
+  margin: 0;
+  padding: 0;
   height: 70rpx;
 }
 
@@ -103,15 +100,21 @@ page {
 .cell {
   padding: 0;
   text-align: center;
-  font-size: 24rpx;
+  font-size: 26rpx;
   color: #333;
-  border-right: 1rpx solid #e0e0e0;
+  border-right: 1rpx solid #f0f0f0;
+  box-sizing: border-box;
+  height: 70rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-sizing: border-box;
-  height: 100%;
-  min-height: 70rpx;
+  overflow: hidden;
+}
+
+/* 数字格子容器特殊处理 */
+.cell.digit-col {
+  align-items: stretch;
+  padding: 0;
 }
 
 .cell.period-col {
@@ -127,92 +130,129 @@ page {
 }
 
 .cell.digit-col {
-  flex: 0 0 400rpx;
-  min-width: 400rpx;
-  max-width: 400rpx;
+  flex: 0 0 300rpx;
+  max-width: 300rpx;
+  min-width: 300rpx;
   padding: 0;
-  height: 100%;
-  min-height: 70rpx;
-}
-
-.cell:last-child {
-  border-right: none;
+  margin: 0;
+  border: none;
+  outline: none;
 }
 
 .period {
-  font-weight: 600;
   color: #666;
+  font-weight: 600;
 }
 
 .winning-number {
   font-size: 32rpx;
-  font-weight: 700;
-  color: #FF6B6B;
+  font-weight: 800;
+  color: #ff6b6b;
   letter-spacing: 4rpx;
 }
 
 .digit-grid {
   display: flex;
-  gap: 0;
-  padding: 0;
-  justify-content: flex-start;
   width: 100%;
   height: 100%;
+  align-items: stretch;
+  justify-content: center;
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 .digit-cell {
   flex: 1;
   height: 100%;
-  border-radius: 0;
-  background-color: #f5f5f5;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20rpx;
-  color: #999;
-  font-weight: 500;
-  transition: all 0.2s ease;
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #333;
+  background: #f8f9fa;
   border-right: 1rpx solid #e0e0e0;
+  transition: all 0.2s ease;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
+  text-align: center;
+  line-height: 1;
+  border-radius: 0;
+  min-height: 100%;
 }
 
-.digit-cell:nth-child(10) {
+.digit-cell:last-child {
   border-right: none;
 }
 
+/* 百位、十位、个位的背景色区分 */
+.hundreds-col .digit-cell {
+  background: #e3f2fd;
+  color: #666;
+}
+
+.tens-col .digit-cell {
+  background: #e8f5e8;
+  color: #666;
+}
+
+.ones-col .digit-cell {
+  background: #fff3e0;
+  color: #666;
+}
+
 .digit-cell.selected {
-  background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+  font-weight: 800;
+  transform: scale(1.1);
+  box-shadow: 0 4rpx 12rpx rgba(255, 107, 107, 0.4);
+  z-index: 1;
+  border-radius: 6rpx;
+  transition: all 0.2s ease;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  line-height: 50rpx;
+  height: 50rpx;
+  margin: auto 0;
+}
+
+/* 中奖数字的样式 */
+.hundreds-col .digit-cell.selected {
+  background: #2196f3;
   color: white;
-  font-weight: 700;
-  box-shadow: 0 2rpx 8rpx rgba(255, 107, 107, 0.3);
+}
+
+.tens-col .digit-cell.selected {
+  background: #4caf50;
+  color: white;
+}
+
+.ones-col .digit-cell.selected {
+  background: #ff9800;
+  color: white;
 }
 
 .toolbar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: white;
-  border-top: 1rpx solid #e0e0e0;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 10rpx 20rpx;
-  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.1);
-  z-index: 100;
+  align-items: center;
+  margin-top: 30rpx;
+  padding: 20rpx;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20rpx;
+  box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.15);
 }
 
 .toolbar-left,
-.toolbar-center,
 .toolbar-right {
   display: flex;
-  align-items: center;
   gap: 20rpx;
 }
 
 .toolbar-center {
-  flex: 1;
+  display: flex;
   justify-content: center;
 }
 
@@ -220,59 +260,54 @@ page {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 10rpx 20rpx;
-  border-radius: 12rpx;
+  padding: 15rpx 25rpx;
+  border-radius: 16rpx;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
   transition: all 0.2s ease;
 }
 
 .toolbar-btn:active {
-  background: #f5f5f5;
   transform: scale(0.95);
 }
 
 .scan-btn {
-  background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+  padding: 20rpx 40rpx;
+}
+
+.toolbar-icon {
+  font-size: 36rpx;
+  margin-bottom: 6rpx;
+}
+
+.toolbar-text {
+  font-size: 22rpx;
+  color: #333;
+  font-weight: 600;
 }
 
 .scan-btn .toolbar-text {
   color: white;
 }
 
-.toolbar-icon {
-  font-size: 32rpx;
-  margin-bottom: 4rpx;
-}
-
-.toolbar-text {
-  font-size: 20rpx;
-  color: #666;
-  font-weight: 500;
-}
-
 .float-btn {
   position: fixed;
-  bottom: 120rpx;
-  right: 20rpx;
+  right: 30rpx;
+  bottom: 180rpx;
   width: 100rpx;
   height: 100rpx;
-  background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
-  border-radius: 50rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4rpx 20rpx rgba(255, 107, 107, 0.4);
-  z-index: 99;
+  box-shadow: 0 8rpx 30rpx rgba(102, 126, 234, 0.4);
   transition: all 0.3s ease;
-  overflow: hidden;
-}
-
-.float-btn:active {
-  transform: scale(0.95);
+  z-index: 100;
 }
 
 .float-btn.expanded {
-  width: 200rpx;
+  width: 140rpx;
   border-radius: 50rpx;
 }
 
@@ -280,16 +315,15 @@ page {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 }
 
 .float-icon {
-  font-size: 36rpx;
-  margin-bottom: 2rpx;
+  font-size: 40rpx;
+  margin-bottom: 4rpx;
 }
 
 .float-text {
-  font-size: 24rpx;
+  font-size: 20rpx;
   color: white;
   font-weight: 700;
 }
@@ -300,10 +334,7 @@ page {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: rgba(0, 0, 0, 0.95);
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
@@ -317,24 +348,27 @@ page {
 
 .vr-content {
   width: 100%;
-  height: 100vh;
-  background: transparent;
-  border-radius: 0;
-  overflow: hidden;
-  transform: scale(1);
-  transition: all 0.3s ease;
-}
-
-.vr-modal.show .vr-content {
-  transform: scale(1);
+  height: 100%;
+  position: relative;
 }
 
 .vr-header {
-  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30rpx;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
 }
 
 .vr-title {
   font-size: 32rpx;
+  color: white;
   font-weight: 700;
 }
 
@@ -347,25 +381,33 @@ page {
 .vr-body {
   padding: 0;
   position: relative;
-  background: radial-gradient(circle at center, #3a3a5a 0%, #2a2a4a 30%, #1a1a2e 60%, #0f0f1e 100%);
+  background: radial-gradient(circle at center, #2a2a4a 0%, #1a1a2e 50%, #0f0f1e 100%);
   min-height: 100vh;
   overflow: hidden;
 }
 
-.vr-scene {
+/* 视口窗口：手机移动时，这个窗口移动，看板保持不动 */
+.vr-viewport {
   width: 100%;
   height: 100vh;
-  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+}
+
+/* 场景容器 - 看板固定在这里，完全不动 */
+.vr-scene-fixed {
+  width: 2000rpx;
+  height: 1500rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  perspective: 3000rpx;
-  perspective-origin: center center;
 }
 
-.vr-3d-container {
-  transition: transform 0.02s linear;
+/* 3D容器 - 看板绝对固定，没有任何移动 */
+.vr-3d-container-fixed {
   position: absolute;
   width: 2000rpx;
   height: 1500rpx;
@@ -374,139 +416,25 @@ page {
   justify-content: center;
   left: 50%;
   top: 50%;
-  will-change: transform;
-  transform-style: preserve-3d;
+  transform: translate(-50%, -50%);
 }
 
+/* 看板 - 直接使用普通页面的表格样式 */
 .vr-board {
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%);
-  border: 20rpx solid #d4a574;
-  border-radius: 50rpx;
-  box-shadow: 0 60rpx 150rpx rgba(0, 0, 0, 0.95), inset 0 0 80rpx rgba(212, 165, 116, 0.3);
-  overflow: hidden;
-  transform-style: preserve-3d;
-  transform: translateZ(-3000rpx) rotateX(5deg);
-}
-
-.board-header {
-  background: linear-gradient(135deg, #d4a574 0%, #c49a6c 100%);
-  padding: 80rpx;
-  text-align: center;
-  border-bottom: 8rpx solid #b8956a;
-}
-
-.board-title {
-  display: block;
-  font-size: 120rpx;
-  font-weight: 800;
-  color: #8b4513;
-  margin-bottom: 20rpx;
-  text-shadow: 4rpx 4rpx 8rpx rgba(255, 255, 255, 0.5);
-}
-
-.board-subtitle {
-  display: block;
-  font-size: 70rpx;
-  color: #a0522d;
-  font-weight: 600;
-}
-
-.board-content {
-  padding: 60rpx;
-}
-
-.board-row {
-  display: flex;
-  align-items: center;
-  padding: 30rpx 20rpx;
-  border-bottom: 3rpx solid #e6d5c3;
-  background: rgba(255, 255, 255, 0.5);
-  margin-bottom: 20rpx;
+  width: auto;
+  height: auto;
+  background: white;
   border-radius: 20rpx;
-}
-
-.board-row.header-row {
-  background: linear-gradient(135deg, #d4a574 0%, #c49a6c 100%);
-  border-bottom: 4rpx solid #b8956a;
-  margin-bottom: 30rpx;
-}
-
-.board-row.header-row .board-cell {
-  color: #8b4513;
-  font-weight: 700;
-  font-size: 60rpx;
-}
-
-.board-cell {
-  flex: 1;
-  text-align: center;
-  font-size: 50rpx;
-  color: #333;
-  font-weight: 500;
-}
-
-.board-cell.period {
-  color: #666;
-  font-weight: 600;
-}
-
-.board-cell.winning {
-  font-size: 70rpx;
-  font-weight: 800;
-  color: #ff6b6b;
-  letter-spacing: 6rpx;
-}
-
-.board-cell.digit {
-  font-size: 60rpx;
-  font-weight: 700;
-  color: #ff8e53;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.board-digit-grid {
-  display: flex;
-  width: 100%;
-  height: 80rpx;
+  box-shadow: 0 40rpx 100rpx rgba(0, 0, 0, 0.8);
   overflow: hidden;
-  border-radius: 10rpx;
+  transform: scale(var(--vr-scale, 2.5));
+  transition: transform 0.3s ease;
 }
 
-.board-digit-cell {
-  width: 10%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1rpx solid #ddd;
-  font-size: 40rpx;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.board-digit-cell.board-selected {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
-  color: white;
-  font-weight: 800;
-  transform: scale(1.05);
-  box-shadow: 0 4rpx 12rpx rgba(255, 107, 107, 0.5);
-}
-
-.board-footer {
-  background: linear-gradient(135deg, #d4a574 0%, #c49a6c 100%);
-  padding: 60rpx;
-  text-align: center;
-  border-top: 8rpx solid #b8956a;
-}
-
-.footer-text {
-  font-size: 50rpx;
-  color: #8b4513;
-  font-weight: 600;
+/* VR中的表格 - 复用普通页面的样式 */
+.vr-lottery-table {
+  box-shadow: none;
+  border-radius: 0;
 }
 
 .vr-controls {
@@ -520,35 +448,43 @@ page {
 }
 
 .control-btn {
-  width: 100rpx;
-  height: 100rpx;
-  background: rgba(255, 255, 255, 0.3);
+  width: 90rpx;
+  height: 90rpx;
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(20rpx);
-  border: 3rpx solid rgba(255, 255, 255, 0.5);
   transition: all 0.2s ease;
+  backdrop-filter: blur(10rpx);
+  border: 2rpx solid rgba(255, 255, 255, 0.3);
 }
 
 .control-btn:active {
-  background: rgba(255, 255, 255, 0.5);
   transform: scale(0.9);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.control-btn.zoom-btn {
+  background: rgba(100, 149, 237, 0.6);
+}
+
+.control-btn.zoom-btn:active {
+  background: rgba(100, 149, 237, 0.8);
 }
 
 .control-btn.close-btn {
-  background: rgba(255, 107, 107, 0.5);
-  border-color: rgba(255, 107, 107, 0.7);
+  background: rgba(255, 107, 107, 0.6);
 }
 
 .control-btn.close-btn:active {
-  background: rgba(255, 107, 107, 0.7);
+  background: rgba(255, 107, 107, 0.8);
 }
 
 .control-icon {
   font-size: 48rpx;
   color: white;
+  font-weight: bold;
 }
 
 .vr-info {
@@ -558,11 +494,9 @@ page {
   background: rgba(0, 0, 0, 0.6);
   padding: 20rpx 30rpx;
   border-radius: 40rpx;
-  backdrop-filter: blur(20rpx);
 }
 
 .info-text {
-  font-size: 32rpx;
+  font-size: 28rpx;
   color: rgba(255, 255, 255, 0.9);
-  font-weight: 600;
 }

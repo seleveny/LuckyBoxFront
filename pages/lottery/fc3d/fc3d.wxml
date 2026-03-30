@@ -1,9 +1,8 @@
-<!--pages/lottery/fc3d/fc3d.wxml-->
 <view class="container">
   <view class="header">
     <text class="title">福彩3D</text>
   </view>
-  
+
   <view class="lottery-table">
     <scroll-view scroll-x="true" class="table-scroll">
       <view class="table-content">
@@ -14,41 +13,24 @@
           <view class="header-cell digit-col">十位</view>
           <view class="header-cell digit-col">个位</view>
         </view>
-        
+
         <view class="table-body">
           <view class="table-row" wx:for="{{lotteryData}}" wx:key="id">
             <view class="cell period-col period">{{item.period}}</view>
             <view class="cell winning-col winning-number">{{item.winningNumber}}</view>
-            <view class="cell digit-col digit-grid">
-              <view 
-                class="digit-cell {{item.hundreds === index ? 'selected' : ''}}" 
-                wx:for="{{[0,1,2,3,4,5,6,7,8,9]}}" 
-                wx:for-item="index"
-                wx:key="*this"
-                data-row="{{item.id}}"
-                data-digit="{{index}}"
-              >
-                {{index}}
+            <view class="cell digit-col hundreds-col digit-grid">
+              <view class="digit-cell {{item.hundreds === index ? 'selected' : ''}}" wx:for="{{[0,1,2,3,4,5,6,7,8,9]}}" wx:for-item="index" wx:key="*this" data-row="{{item.id}}" data-digit="{{index}}">
+                {{item.hundreds === index ? index : ''}}
               </view>
             </view>
-            <view class="cell digit-col digit-grid">
-              <view 
-                class="digit-cell {{item.tens === index ? 'selected' : ''}}" 
-                wx:for="{{[0,1,2,3,4,5,6,7,8,9]}}" 
-                wx:for-item="index"
-                wx:key="*this"
-              >
-                {{index}}
+            <view class="cell digit-col tens-col digit-grid">
+              <view class="digit-cell {{item.tens === index ? 'selected' : ''}}" wx:for="{{[0,1,2,3,4,5,6,7,8,9]}}" wx:for-item="index" wx:key="*this">
+                {{item.tens === index ? index : ''}}
               </view>
             </view>
-            <view class="cell digit-col digit-grid">
-              <view 
-                class="digit-cell {{item.ones === index ? 'selected' : ''}}" 
-                wx:for="{{[0,1,2,3,4,5,6,7,8,9]}}" 
-                wx:for-item="index"
-                wx:key="*this"
-              >
-                {{index}}
+            <view class="cell digit-col ones-col digit-grid">
+              <view class="digit-cell {{item.ones === index ? 'selected' : ''}}" wx:for="{{[0,1,2,3,4,5,6,7,8,9]}}" wx:for-item="index" wx:key="*this">
+                {{item.ones === index ? index : ''}}
               </view>
             </view>
           </view>
@@ -56,7 +38,7 @@
       </view>
     </scroll-view>
   </view>
-  
+
   <view class="toolbar">
     <view class="toolbar-left">
       <view class="toolbar-btn" bindtap="onRandomSelect">
@@ -81,14 +63,14 @@
       </view>
     </view>
   </view>
-  
+
   <view class="float-btn {{showFloatBtn ? 'expanded' : ''}}" bindtap="onFloatBtnClick">
     <view class="float-btn-content">
       <text class="float-icon">🎮</text>
       <text class="float-text">VR</text>
     </view>
   </view>
-  
+
   <view class="vr-modal {{showVR ? 'show' : ''}}" bindtap="onCloseVR">
     <view class="vr-content" catchtap="stopPropagation">
       <view class="vr-header">
@@ -96,72 +78,62 @@
         <text class="vr-close" bindtap="onCloseVR">✕</text>
       </view>
       <view class="vr-body">
-        <view class="vr-scene">
-          <view class="vr-3d-container" style="transform: translate(calc(-50% + {{viewX}}rpx), calc(-50% + {{viewY}}rpx)) scale({{scale}})">
-            <view class="vr-board">
-              <view class="board-header">
-                <text class="board-title">福彩3D中奖公告</text>
-                <text class="board-subtitle">最新开奖结果</text>
-              </view>
-              <view class="board-content">
-                <view class="board-row header-row">
-                  <text class="board-cell">期号</text>
-                  <text class="board-cell">开奖号</text>
-                  <text class="board-cell">百位</text>
-                  <text class="board-cell">十位</text>
-                  <text class="board-cell">个位</text>
-                </view>
-                <view class="board-row" wx:for="{{lotteryData}}" wx:key="id">
-                  <text class="board-cell period">{{item.period}}</text>
-                  <text class="board-cell winning">{{item.winningNumber}}</text>
-                  <view class="board-cell digit">
-                    <view class="board-digit-grid">
-                      <view wx:for="{{[0,1,2,3,4,5,6,7,8,9]}}" wx:key="index"
-                        class="board-digit-cell {{item.hundreds === index ? 'board-selected' : ''}}">
-                        {{index}}
-                      </view>
+        <!-- 视口窗口：手机移动时，这个窗口移动，看板保持不动 -->
+        <view class="vr-viewport" style="transform: translate({{-viewX}}rpx, {{-viewY}}rpx)">
+          <view class="vr-scene-fixed">
+            <view class="vr-3d-container-fixed">
+              <!-- VR看板 - 直接使用普通页面的表格样式 -->
+              <view class="vr-board" style="--vr-scale: {{vrScale}}">
+                <view class="lottery-table vr-lottery-table">
+                  <view class="table-content">
+                    <view class="table-header">
+                      <view class="header-cell period-col">期号</view>
+                      <view class="header-cell winning-col">开奖号</view>
+                      <view class="header-cell digit-col">百位</view>
+                      <view class="header-cell digit-col">十位</view>
+                      <view class="header-cell digit-col">个位</view>
                     </view>
-                  </view>
-                  <view class="board-cell digit">
-                    <view class="board-digit-grid">
-                      <view wx:for="{{[0,1,2,3,4,5,6,7,8,9]}}" wx:key="index"
-                        class="board-digit-cell {{item.tens === index ? 'board-selected' : ''}}">
-                        {{index}}
+
+                    <view class="table-body">
+                      <view class="table-row" wx:for="{{lotteryData}}" wx:key="id">
+                        <view class="cell period-col period">{{item.period}}</view>
+                      <view class="cell winning-col winning-number">{{item.winningNumber}}</view>
+                      <view class="cell digit-col hundreds-col digit-grid">
+                        <view class="digit-cell {{item.hundreds === index ? 'selected' : ''}}" wx:for="{{[0,1,2,3,4,5,6,7,8,9]}}" wx:for-item="index" wx:key="*this">
+                          {{item.hundreds === index ? index : ''}}
+                        </view>
                       </view>
-                    </view>
-                  </view>
-                  <view class="board-cell digit">
-                    <view class="board-digit-grid">
-                      <view wx:for="{{[0,1,2,3,4,5,6,7,8,9]}}" wx:key="index"
-                        class="board-digit-cell {{item.ones === index ? 'board-selected' : ''}}">
-                        {{index}}
+                      <view class="cell digit-col tens-col digit-grid">
+                        <view class="digit-cell {{item.tens === index ? 'selected' : ''}}" wx:for="{{[0,1,2,3,4,5,6,7,8,9]}}" wx:for-item="index" wx:key="*this">
+                          {{item.tens === index ? index : ''}}
+                        </view>
+                      </view>
+                      <view class="cell digit-col ones-col digit-grid">
+                        <view class="digit-cell {{item.ones === index ? 'selected' : ''}}" wx:for="{{[0,1,2,3,4,5,6,7,8,9]}}" wx:for-item="index" wx:key="*this">
+                          {{item.ones === index ? index : ''}}
+                        </view>
+                      </view>
                       </view>
                     </view>
                   </view>
                 </view>
-              </view>
-              <view class="board-footer">
-                <text class="footer-text">移动手机查看虚拟空间中的不同位置</text>
               </view>
             </view>
           </view>
         </view>
         <view class="vr-controls">
+          <view class="control-btn zoom-btn" bindtap="onZoomIn">
+            <text class="control-icon">+</text>
+          </view>
+          <view class="control-btn zoom-btn" bindtap="onZoomOut">
+            <text class="control-icon">−</text>
+          </view>
           <view class="control-btn close-btn" bindtap="onCloseVR">
             <text class="control-icon">✕</text>
           </view>
-          <view class="control-btn" bindtap="onZoomIn">
-            <text class="control-icon">➕</text>
-          </view>
-          <view class="control-btn" bindtap="onZoomOut">
-            <text class="control-icon">➖</text>
-          </view>
-          <view class="control-btn" bindtap="onResetView">
-            <text class="control-icon">🔄</text>
-          </view>
         </view>
         <view class="vr-info">
-          <text class="info-text">移动手机查看不同位置 · 所有内容一目了然</text>
+          <text class="info-text">移动手机查看不同位置 | 点击±调整距离</text>
         </view>
       </view>
     </view>

@@ -56,5 +56,5 @@ LuckyBoxFront/
 ## 许可证
 
 MIT
-# LuckyBoxFront
-运气棒棒前端
+# LuckyMiniApp
+运气棒棒小程序
